@@ -1,0 +1,89 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Queue {
+private:
+    string names[100];
+    int front;
+    int rear;
+public:
+    Queue() {
+        front = 0;
+        rear = -1;
+    }
+
+    void enqueue(string name) {
+        if (rear >= 99) {
+            return;
+        }
+        rear++;
+        names[rear] = name;
+    }
+
+    string dequeue() {
+        if (isEmpty()) {
+            return "";
+        }
+        string customer = names[front];
+        front++;
+        return customer;
+    }
+
+    bool isEmpty() {
+        return front > rear;
+    }
+
+    void show() {
+        if (isEmpty()) {
+            cout << "No customers waiting" << endl;
+            return;
+        }
+        cout << "Waiting: ";
+        for (int i = front; i <= rear; i++) {
+            cout << names[i];
+            if (i < rear) {
+                cout << ", ";
+            }
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Queue line;
+    int choice;
+    string name;
+
+    do {
+        cout << "1. New customer  2. Serve next  3. Show line  0. Exit" << endl;
+        cout << "Choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Name: ";
+                cin >> name;
+                line.enqueue(name);
+                break;
+            case 2:
+                if (line.isEmpty()) {
+                    cout << "No customers waiting" << endl;
+                } else {
+                    cout << "Now serving: " << line.dequeue() << endl;
+                }
+                break;
+            case 3:
+                line.show();
+                break;
+            case 0:
+                break;
+            default:
+                break;
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
